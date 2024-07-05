@@ -1,4 +1,6 @@
 from pydantic import BaseModel, Field
+from typing import List
+
 
 class Post(BaseModel):
     """_Model representing a social media post.
@@ -12,6 +14,7 @@ class Post(BaseModel):
     """
     text:str = Field(..., description="Publication Content")
     public_visbility:bool = Field(..., description="Indicate whether the post is public o private")
+    likes:List[str] = Field()
 
 
 class PostId(Post):

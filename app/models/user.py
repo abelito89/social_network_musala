@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, EmailStr, field_validator
 import re
 
+
 class User(BaseModel):
     """Model representing a user.
 
@@ -18,7 +19,6 @@ class User(BaseModel):
     Notes:
         The password must be at least 8 characters long and include at least one uppercase letter,
         one lowercase letter, one number, and one special character from '!@#$%^&*(),.?":{}|<>'.
-
     """
     fullName:str = Field(..., description="Full name of the user")
     email:EmailStr = Field(..., description="email of the user")
@@ -39,15 +39,15 @@ class User(BaseModel):
             ValueError: If the password does not meet the specified criteria.
         """
         if len(v) < 8:
-            raise ValueError('La contraseña debe tener al menos 8 caracteres')
+            raise ValueError('Password must have 8 characters at least')
         if not re.search(r'[A-Z]', v):
-            raise ValueError('La contraseña debe contener al menos una letra mayúscula')
+            raise ValueError('Password must contain at least one uppercase letter')
         if not re.search(r'[a-z]', v):
-            raise ValueError('La contraseña debe contener al menos una letra minúscula')
+            raise ValueError('Password must contain at least one lowercase letter')
         if not re.search(r'[0-9]', v):
-            raise ValueError('La contraseña debe contener al menos un número')
+            raise ValueError('Password must contain at least one number')
         if not re.search(r'[!@#$%^&*(),.?":{}|<>]', v):
-            raise ValueError('La contraseña debe contener al menos un carácter especial')
+            raise ValueError('Password must contain at least one special character')
         return v
 
 
@@ -59,8 +59,10 @@ class UserId(User):
 
     Attributes:
         id (str): Identifier inherited from MongoDB.
+        role (str): Role of the user, defaults to 'user'.
 
     Inherits:
         User: Base model containing attributes for a user.
     """
     id:str = Field(..., description="id heredated from MongoDB")
+    role:str = Field(default="user", description="By default all users have the user role" )
